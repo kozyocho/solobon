@@ -1,0 +1,957 @@
+@use "var";
+@use "bp";
+
+body {
+  font-family: var.$font-family-ja;
+  color: var.$color-text-base;
+  font-size: var.$font-size-base;
+  font-weight: var.$font-weight-base;
+  background: var.$background-base;
+  line-height: var.$line-height-base;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%; // 絶対配置にすると親要素から切り離されてしまうので、横幅を決めないと縮んでしまいます。ここでの100%は親要素（body）の横幅を基準としたパーセンテージ
+  height: 60px;
+  z-index: 100;
+
+  @include bp.mq(pc) {
+    height: 70px;
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 15px 19px;
+
+    @include bp.mq(pc) {
+      padding-top: 24px;
+      padding-bottom: 24px;
+      padding-left: 40px;
+      padding-right: 40px;
+      max-width: calc(1200px + 40px * 2);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__logo {
+    img {
+      width: 120px;
+      transition: opacity 0.3s;
+
+      @include bp.mq(pc) {
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  &__nav {
+    display: none;
+
+    @include bp.mq(pc) {
+      display: flex;
+      gap: 46px;
+    }
+  }
+
+  &__link {
+    transition: color 0.3s;
+
+    @include bp.mq(pc) {
+      &:hover {
+        color: var.$color-main;
+      }
+    }
+  }
+
+  .drawer-icon {
+    width: 30px;
+    height: 18px;
+    position: relative;
+
+    @include bp.mq(pc) {
+      display: none;
+    }
+
+    &.is-clicked {
+      .drawer-icon__bar {
+        &:nth-of-type(1) {
+          //クリックされたら回転
+          transform: rotate(-45deg);
+          top: 10px;
+        }
+        &:nth-of-type(2) {
+          //クリックされたら非表示
+          display: none;
+        }
+        &:nth-of-type(3) {
+          //クリックされたら回転
+          transform: rotate(45deg);
+          top: 10px;
+        }
+      }
+    }
+
+    &__bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background: var.$color-main;
+      transition: transform 0.3s linear, top 0.3s linear;
+
+      &:nth-of-type(1) {
+        //クリックされたら回転
+        //transform: rotate(-45deg)
+      }
+      &:nth-of-type(2) {
+        top: 9px;
+
+        //クリックされたら非表示
+        //display: none;
+      }
+      &:nth-of-type(3) {
+        top: 18px;
+
+        //クリックされたら回転
+        //transform: rotate(45deg)
+      }
+    }
+  }
+}
+
+.drawer-content {
+  width: 270px;
+  height: 100%;
+  position: fixed;
+  top: 60px;
+  right: 0;
+  background: var.$color-main;
+  padding: 40px 15px 295px;
+  text-align: right;
+  transform: translateX(100%);
+  transition: transform 0.3s;
+
+  //is-openクラスがついたら右から表示させる
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  @include bp.mq(pc) {
+    display: none;
+  }
+}
+
+.drawer-content__menu {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.drawer-content__link {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.inner {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @include bp.mq(pc) {
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(1200px + 40px * 2);
+  }
+}
+
+.button {
+  margin-top: 42px;
+  padding: 12px 53.5px;
+  color: var.$color-main;
+  letter-spacing: 0.02px;
+  border: 1px solid currentColor;
+  background: #fff;
+
+  @include bp.mq(pc) {
+    margin-top: 44px;
+  }
+
+  &:hover {
+    background-color: var.$color-main;
+    color: #fff;
+  }
+}
+
+.heading {
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+
+  &.heading-type-2 {
+    color: var.$color-main;
+  }
+
+  @include bp.mq(pc) {
+    font-size: 40px;
+  }
+
+  &::after {
+    content: "";
+    width: 60px;
+    height: 1px;
+    background: var.$color-main;
+    position: absolute;
+    bottom: -17px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include bp.mq(pc) {
+      bottom: -24px;
+    }
+  }
+}
+
+.first-view {
+  margin-top: 60px;
+
+  @include bp.mq(pc) {
+    margin-top: 70px;
+  }
+
+  &__inner {
+    padding-left: 15px;
+    padding-right: 15px;
+
+    @include bp.mq(pc) {
+      padding-left: 0;
+    }
+  }
+
+  &__content {
+    @include bp.mq(pc) {
+      text-align: right;
+      position: relative;
+    }
+  }
+
+  &__image {
+  }
+
+  .type-sp {
+    text-align: center;
+    img {
+      width: 345px;
+    }
+    @include bp.mq(pc) {
+      display: none;
+    }
+  }
+
+  .type-pc {
+    display: none;
+
+    @include bp.mq(pc) {
+      display: inline;
+      img {
+        width: 990px;
+      }
+    }
+  }
+
+  &__body {
+    margin-top: 29px;
+
+    @include bp.mq(pc) {
+      padding: 80px 40px;
+      position: absolute;
+      top: 171px;
+      left: 0;
+      background: var.$background-base;
+    }
+  }
+
+  &__body-head {
+    font-size: 26px;
+    font-weight: 600;
+  }
+
+  &__body-text {
+    margin-top: 16px;
+    font-weight: 300;
+    line-height: calc(27.2 / 16);
+  }
+}
+
+.concept {
+  padding-top: 86px;
+
+  @include bp.mq(pc) {
+    padding-top: 160px;
+    padding-bottom: 160px;
+  }
+
+  &__content {
+    margin-top: 63px;
+
+    @include bp.mq(pc) {
+      margin-top: 89px;
+      display: flex;
+      gap: 80px;
+      align-items: center;
+    }
+  }
+
+  .type-2 {
+    @include bp.mq(pc) {
+      margin-top: 0;
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 80px;
+      align-items: center;
+    }
+  }
+
+  &__image {
+    text-align: center;
+    @include bp.mq(pc) {
+      width: calc(600px / 1200px * 100%);
+      flex-shrink: 0;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__body {
+    @include bp.mq(pc) {
+      flex-grow: 1;
+    }
+  }
+
+  &__body-head {
+    margin-top: 34px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+
+  &__body-text {
+    margin-top: 22px;
+    font-weight: 300;
+    line-height: 1.7;
+
+    @include bp.mq(pc) {
+      margin-top: 40px;
+    }
+  }
+}
+
+.feature {
+  padding-top: 85px;
+  padding-bottom: 96px;
+
+  @include bp.mq(pc) {
+    padding-bottom: 160px;
+  }
+
+  &__heading {
+  }
+
+  &__content {
+    margin-top: 62px;
+
+    @include bp.mq(pc) {
+      margin-top: 64px;
+    }
+  }
+
+  &__boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 49px;
+    align-items: center;
+
+    @include bp.mq(pc) {
+      flex-direction: row;
+      gap: 90px;
+    }
+  }
+
+  &__box {
+    background: #fff;
+    box-shadow: 3px 3px 15px 0px rgba(96, 96, 96, 0.16);
+  }
+
+  &__box-image {
+    img {
+      width: 345px;
+
+      @include bp.mq(pc) {
+        width: 340px;
+      }
+    }
+  }
+
+  &__box-text {
+    text-align: center;
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+}
+
+.question {
+  padding-top: 180px;
+  padding-bottom: 50px;
+  background: url(../img/question-bg-sp.png) no-repeat center center / cover;
+
+  @include bp.mq(pc) {
+    padding-top: 123px;
+    padding-bottom: 122px;
+    background: url(../img/question-bg.png) no-repeat center center / cover;
+  }
+
+  &__inner {
+  }
+
+  &__content {
+  }
+
+  &__head-text {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+
+    @include bp.mq(pc) {
+      font-size: 22px;
+    }
+  }
+
+  &__body-text {
+    margin-top: 24px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+
+    @include bp.mq(pc) {
+      font-size: 16px;
+    }
+  }
+}
+
+.products {
+  padding-top: 96px;
+  text-align: center;
+
+  &__inner {
+    padding-left: 56px;
+    padding-right: 56px;
+
+    @include bp.mq(pc) {
+      padding-left: 30px;
+      padding-right: 30px;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: calc(940px + 30px * 2);
+    }
+  }
+
+  &__content {
+    margin-top: 74px;
+    @include bp.mq(pc) {
+      margin-top: 89px;
+    }
+  }
+
+  &__boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    @include bp.mq(pc) {
+      flex-direction: row;
+      gap: 80px;
+    }
+  }
+
+  &__box {
+  }
+
+  .products-box {
+    @include bp.mq(pc) {
+      &:hover {
+        .products-box__image img {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    &__image {
+      @include bp.mq(pc) {
+        overflow: hidden;
+      }
+
+      img {
+        width: 100%;
+
+        @include bp.mq(pc) {
+          transition: transform 0.6s ease;
+        }
+      }
+    }
+
+    &__title {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    &__price {
+      margin-top: 10px;
+      color: #989898;
+      font-size: 14px;
+      text-align: left;
+    }
+  }
+}
+
+.news {
+  padding-top: 96px;
+
+  &__inner {
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(1040px + 30px * 2);
+  }
+
+  &__boxes {
+    margin-top: 74px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  &__box {
+  }
+
+  .news-box {
+    padding-bottom: 28px;
+
+    @include bp.mq(pc) {
+      padding-bottom: 26px;
+
+      &:hover {
+        .news-box__image img {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    a {
+      @include bp.mq(pc) {
+        display: flex;
+        gap: 40px;
+      }
+    }
+
+    &__image {
+      text-align: center;
+
+      @include bp.mq(pc) {
+        overflow: hidden;
+      }
+
+      img {
+        width: 345px;
+
+        @include bp.mq(pc) {
+          width: 260px;
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+
+    &__body {
+      margin-top: 16px;
+
+      @include bp.mq(pc) {
+        margin: 0;
+      }
+    }
+
+    &__date {
+      font-size: 14px;
+    }
+
+    &__title {
+      margin-top: 10px;
+      font-weight: 600;
+
+      @include bp.mq(pc) {
+        margin-top: 16px;
+        font-size: 18px;
+      }
+    }
+
+    &__body-text {
+      margin-top: 14px;
+      color: #888;
+      font-size: 14px;
+
+      @include bp.mq(pc) {
+        margin-top: 10px;
+      }
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #ccc; /* 任意のボーダーのスタイルと色を指定 */
+    }
+  }
+
+  &__more {
+    text-align: center;
+  }
+}
+
+.contact {
+  padding-block: 56px;
+  background: url(../img/contact_bg.jpg) no-repeat center center / cover;
+
+  @include bp.mq(pc) {
+    padding-block: 80px;
+  }
+}
+
+.contact__inner {
+  max-width: calc(510px + 40px * 2);
+  padding-inline: 40px;
+}
+
+.inner {
+}
+
+.heading {
+}
+
+.contact__head {
+  color: var.$color-main;
+}
+
+.contact__form {
+  margin-top: 74px;
+
+  @include bp.mq(pc) {
+    margin-top: 84px;
+  }
+}
+
+.contact__text {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+
+  .is-required {
+    color: #e7728e;
+  }
+}
+
+.contact__items {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include bp.mq(pc) {
+    margin-top: 19px;
+  }
+}
+
+.contact__item {
+}
+
+.contact-control {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  @include bp.mq(pc) {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+.contact-control__head {
+  @include bp.mq(pc) {
+    width: 180px;
+    flex-shrink: 0;
+  }
+}
+
+.contact-control__input {
+  @include bp.mq(pc) {
+    flex-grow: 1;
+  }
+}
+
+.contact-control__radios {
+  display: flex;
+  align-items: center;
+}
+
+.form-label {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(var.$color-main, 0.7);
+  padding: 4px 16px;
+
+  @include bp.mq(pc) {
+    width: 100%;
+    justify-content: center;
+    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    padding-inline: 4px;
+    clip-path: polygon(0% 0%, 96% 0, 100% 50%, 97% 100%, 0% 100%);
+  }
+}
+
+.form-label__required {
+  color: #e7728e;
+  font-size: 10px;
+  font-weight: 600;
+
+  @include bp.mq(pc) {
+    font-size: 12px;
+  }
+}
+
+.form-text {
+  width: 100%;
+  height: 40px;
+  border: 0;
+  font-size: 16px;
+  background: #fff;
+  box-shadow: 5px 6px 16px 0px rgba(96, 96, 96, 0.16);
+  &:hover,
+  &:focus {
+    //border-color: var.$color-main;
+    border: 2px solid var.$color-main;
+    outline: none;
+  }
+}
+
+.form-radio {
+  position: relative;
+}
+
+.form-radio__input {
+  //選択はできるが見えないようにする処理
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+
+  //.form-radio__inputにチェックがついたときに.form-radio__textをどうするか
+  &:checked + .form-radio__text {
+    color: #fff;
+    background: var.$color-main;
+  }
+}
+
+.form-radio__text {
+  font-size: 16px;
+  letter-spacing: 0.02px;
+  color: var.$color-main;
+  border: 1px solid #fff;
+  background: #fff;
+  width: 80px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+
+.form-textarea {
+  width: 100%;
+  height: 122px;
+  background: #fff;
+  box-shadow: 5px 6px 16px 0px rgba(96, 96, 96, 0.16);
+  resize: vertical;
+  font-size: 16px;
+  border: 0;
+}
+
+.contact__footer {
+  margin-top: 28px;
+
+  @include bp.mq(pc) {
+    margin-top: 32px;
+  }
+}
+
+.contact__privacy {
+  text-align: center;
+}
+
+.form-checkbox {
+  position: relative;
+}
+
+.form-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+
+  &:checked + .form-checkbox__text {
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+.form-checkbox__text {
+  font-size: 16px;
+  padding-left: 30px;
+
+  a {
+    text-decoration: underline;
+    color: var.$color-main;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    inset-block: 0;
+    margin-block: auto;
+  }
+
+  &::before {
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border: 1px solid var.$color-main;
+  }
+
+  &::after {
+    opacity: 0;
+    width: 19.414px;
+    height: 14.621px;
+    left: 1.29px;
+    background: url(../img/check-icon.png) no-repeat center center / contain;
+  }
+}
+
+.contact__submit {
+  text-align: center;
+}
+
+.footer {
+  padding-block: 40px 10px;
+
+  @include bp.mq(pc) {
+    padding-bottom: 14px;
+  }
+
+  &__inner {
+  }
+
+  &__content {
+    text-align: center;
+  }
+
+  &__logo {
+    img {
+      width: 120px;
+      transition: opacity 0.3s;
+
+      @include bp.mq(pc) {
+        cursor: pointer;
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 22px;
+
+    @include bp.mq(pc) {
+      flex-direction: row;
+      gap: 32px;
+      justify-content: center;
+    }
+  }
+
+  &__privacypolicy {
+    font-size: 12px;
+    transition: opacity 0.3s;
+
+    @include bp.mq(pc) {
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &__tokushoho {
+    font-size: 12px;
+    transition: opacity 0.3s;
+
+    @include bp.mq(pc) {
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &__sns {
+    margin-top: 18px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-bottom: 24px;
+
+    @include bp.mq(pc) {
+      margin-top: 20px;
+      margin-bottom: 27.8px;
+    }
+  }
+
+  .sns-icon {
+    img {
+      width: 20px;
+    }
+  }
+
+  .copyright {
+    color: #888;
+    font-size: 12px;
+  }
+}
